@@ -62,7 +62,7 @@ checkConfigured sessionToken
 checkConfigured publicKey
 
 
-#brew install terraform
-#cd ~/challenge/demo1/.tf
-#terraform init
-#terraform apply -input=false -auto-approve
+brew install terraform
+cd ~/challenge/demo1/.tf
+terraform init
+terraform apply -input=false -auto-approve
