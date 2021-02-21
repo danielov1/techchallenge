@@ -1,5 +1,6 @@
 #!/bin/bash
 
+## Check if lines are exist and remove them
 checkLinesRemove () {
     checkLineRemove=$(grep -oh $1 ~/challenge/demo1/.tf/variables.tf)
 if [[ $checkLineRemove == "$1" ]]
@@ -11,7 +12,7 @@ else
 fi
 }
 
-
+## Create a new Private & Public key
 createPubKey () {
     publicKeyCheck=$(cd ~/challenge/demo1/ && ls -l | grep -oh chlng.pub)
 
@@ -26,6 +27,7 @@ else
 fi
 }
 
+## Check if Quotes are exist, If not add Quotes
 checkQuotes () {
 if [[ $2 == *'"'* ]]
     then
@@ -36,6 +38,7 @@ else
 fi
 }
 
+## Check config status
 checkConfigured () {
 checkIfCongigured=$(grep -oh $1 ~/challenge/demo1/.tf/variables.tf)
 if [[ $checkIfCongigured == "$1" ]]
@@ -46,7 +49,7 @@ else
 fi
 }
 
-
+## Execute functions in order
 checkLinesRemove accessKey
 checkLinesRemove secretKey
 checkLinesRemove sessionToken
@@ -61,7 +64,7 @@ checkConfigured secretKey
 checkConfigured sessionToken
 checkConfigured publicKey
 
-
+## Install Terraform
 brew install terraform
 cd ~/challenge/demo1/.tf
 terraform init
