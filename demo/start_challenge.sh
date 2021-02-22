@@ -2,10 +2,10 @@
 
 ## Check if lines are exist and remove them
 checkLinesRemove () {
-    checkLineRemove=$(grep -oh $1 ~/challenge/demo1/.tf/variables.tf)
+    checkLineRemove=$(grep -oh $1 ~/techchallenge/demo/.tf/variables.tf)
 if [[ $checkLineRemove == "$1" ]]
     then
-        sed -i.bak "/$1/d" ~/challenge/demo1/.tf/variables.tf
+        sed -i.bak "/$1/d" ~/techchallenge/demo/.tf/variables.tf
         echo "old $1 was removed"
 else
         echo "accessKey is not configured, configuring a new accessKey"
@@ -14,15 +14,15 @@ fi
 
 ## Create a new Private & Public key
 createPubKey () {
-    publicKeyCheck=$(cd ~/challenge/demo1/ && ls -l | grep -oh chlng.pub)
+    publicKeyCheck=$(cd ~/techchallenge/demo/ && ls -l | grep -oh chlng.pub)
 
 if [[ $publicKeyCheck == "$1.pub" ]]
     then
         rm $1 $1.pub
-        cd ~/challenge/demo1 && ssh-keygen -f $1 -q -N ""
+        cd ~/techchallenge/demo && ssh-keygen -f $1 -q -N ""
         publicKey=$(cat $1.pub)
 else
-        cd ~/challenge/demo1 && ssh-keygen -f $1 -q -N ""
+        cd ~/techchallenge/demo && ssh-keygen -f $1 -q -N ""
         publicKey=$(cat $1.pub)
 fi
 }
@@ -31,16 +31,16 @@ fi
 checkQuotes () {
 if [[ $2 == *'"'* ]]
     then
-        echo -e " variable "$1" {default = $2}" >> ~/challenge/demo1/.tf/variables.tf
+        echo -e " variable "$1" {default = $2}" >> ~/techchallenge/demo/.tf/variables.tf
 else
         withQuotes=\"${2}\"
-        echo -e " variable "$1" {default = $withQuotes}" >> ~/challenge/demo1/.tf/variables.tf
+        echo -e " variable "$1" {default = $withQuotes}" >> ~/techchallenge/demo/.tf/variables.tf
 fi
 }
 
 ## Check config status
 checkConfigured () {
-checkIfCongigured=$(grep -oh $1 ~/challenge/demo1/.tf/variables.tf)
+checkIfCongigured=$(grep -oh $1 ~/techchallenge/demo/.tf/variables.tf)
 if [[ $checkIfCongigured == "$1" ]]
     then
         echo "$1 is configured"
@@ -66,6 +66,6 @@ checkConfigured publicKey
 
 ## Install Terraform
 brew install terraform
-cd ~/challenge/demo1/.tf
+cd ~/techchallenge/demo/.tf
 terraform init
 terraform apply -input=false -auto-approve
