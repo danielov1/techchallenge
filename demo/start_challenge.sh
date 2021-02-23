@@ -68,4 +68,4 @@ checkConfigured publicKey
 brew install terraform
 cd ~/techchallenge/demo/.tf
 terraform init
-terraform apply -input=false -auto-approve
+terraform apply -input=true -auto-approve

@@ -81,18 +81,18 @@ resource "aws_security_group" "challenge_sg_web_traffic" {
   }
 
   tags = {
-    Name = "allow_web"
+    Name = "allow_web_ssh"
   }
 }
 
 resource "aws_network_interface" "challenge_network_interface1" {
   subnet_id = aws_subnet.challenge_subnet.id
-  private_ips = var.private_ips
+  private_ips = var.private_ip_s1
   security_groups = [aws_security_group.challenge_sg_web_traffic.id]
 }
 # resource "aws_network_interface" "challenge_network_interface2" {
 #   subnet_id = aws_subnet.challenge_subnet.id
-#   private_ips = var.private_ips
+#   private_ips = var.private_ip_s2
 #   security_groups = [aws_security_group.challenge_sg_web_traffic.id]
 # }
 
@@ -100,14 +100,14 @@ resource "aws_eip" "challenge_eip1" {
   depends_on = [aws_internet_gateway.challenge_igw, aws_instance.challenge_instance1]
   vpc = true
   network_interface = aws_network_interface.challenge_network_interface1.id
-  associate_with_private_ip = var.private_ips[0]
+  associate_with_private_ip = var.private_ip_s1[0]
 }
 
 # resource "aws_eip" "challenge_eip2" {
 #   depends_on = [aws_internet_gateway.challenge_igw, aws_instance.challenge_instance2]
 #   vpc = true
 #   network_interface = aws_network_interface.challenge_network_interface2.id
-#   associate_with_private_ip = var.private_ips[1]
+#   associate_with_private_ip = var.private_ip_s2[0]
 # }
 
 resource "aws_key_pair" "deployer" {
