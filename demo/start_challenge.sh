@@ -68,7 +68,7 @@ checkConfigured secretKey
 checkConfigured sessionToken
 checkConfigured publicKey
 
-## Install Terraform
+## Install Terraform and apply tf config
 brew install terraform
 cd ~/techchallenge/demo/.tf
 terraform init
