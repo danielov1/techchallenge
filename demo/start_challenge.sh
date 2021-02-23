@@ -6,23 +6,27 @@ checkLinesRemove () {
 if [[ $checkLineRemove == "$1" ]]
     then
         sed -i.bak "/$1/d" ~/techchallenge/demo/.tf/variables.tf
-        echo "old $1 was removed"
+        echo "old $1 var was removed, configuring a new $1 var..."
 else
-        echo "accessKey is not configured, configuring a new accessKey"
+        echo "$1 var is not configured, configuring a new $1 var..."
 fi
 }
 
 ## Create a new Private & Public key
 createPubKey () {
-    publicKeyCheck=$(cd ~/techchallenge/demo/ && ls -l | grep -oh chlng.pub)
+    publicKeyCheck=$(ls -l ~/techchallenge/demo/ |grep -oh chlng.pub)
 
 if [[ $publicKeyCheck == "$1.pub" ]]
     then
-        rm $1 $1.pub
+        rm "$1" "$1.pub"
+        echo "Public & Private keys removed, generating new keys..."
         cd ~/techchallenge/demo && ssh-keygen -f $1 -q -N ""
         publicKey=$(cat $1.pub)
 else
+        echo "Generating new keys..."
         cd ~/techchallenge/demo && ssh-keygen -f $1 -q -N ""
+        echo "Private key name is 'chlng'"
+        echo "Public key name is 'chlng.pub'"
         publicKey=$(cat $1.pub)
 fi
 }

@@ -90,11 +90,11 @@ resource "aws_network_interface" "challenge_network_interface1" {
   private_ips = var.private_ip_s1
   security_groups = [aws_security_group.challenge_sg_web_traffic.id]
 }
-# resource "aws_network_interface" "challenge_network_interface2" {
-#   subnet_id = aws_subnet.challenge_subnet.id
-#   private_ips = var.private_ip_s2
-#   security_groups = [aws_security_group.challenge_sg_web_traffic.id]
-# }
+resource "aws_network_interface" "challenge_network_interface2" {
+  subnet_id = aws_subnet.challenge_subnet.id
+  private_ips = var.private_ip_s2
+  security_groups = [aws_security_group.challenge_sg_web_traffic.id]
+}
 
 resource "aws_eip" "challenge_eip1" {
   depends_on = [aws_internet_gateway.challenge_igw, aws_instance.challenge_instance1]
@@ -103,12 +103,12 @@ resource "aws_eip" "challenge_eip1" {
   associate_with_private_ip = var.private_ip_s1[0]
 }
 
-# resource "aws_eip" "challenge_eip2" {
-#   depends_on = [aws_internet_gateway.challenge_igw, aws_instance.challenge_instance2]
-#   vpc = true
-#   network_interface = aws_network_interface.challenge_network_interface2.id
-#   associate_with_private_ip = var.private_ip_s2[0]
-# }
+resource "aws_eip" "challenge_eip2" {
+  depends_on = [aws_internet_gateway.challenge_igw, aws_instance.challenge_instance2]
+  vpc = true
+  network_interface = aws_network_interface.challenge_network_interface2.id
+  associate_with_private_ip = var.private_ip_s2[0]
+}
 
 resource "aws_key_pair" "deployer" {
   key_name   = var.key_name
@@ -127,15 +127,15 @@ resource "aws_instance" "challenge_instance1" {
               sudo apt install apache2 -y
               sudo apt install net-tools -y
               sudo systemctl start apache2
+              sudo echo '127.0.0.1 www.ascii-art.de' >> /etc/hosts
+              sudo ip route add 208.86.224.90/32   dev eth0 src 10.0.1.50
               sudo rm /var/www/html/index.html
               sudo echo 'Hello world' > /var/www/html/index.html
               sudo echo '<Directory />' > /etc/apache2/conf-enabled/security.conf
-              sudo echo '   Order Deny,Allow' >> security.conf
-              sudo echo '   Deny from all' >> security.conf
-              sudo echo '</Directory>' >> security.conf
+              sudo echo '   Order Deny,Allow' >> /etc/apache2/conf-enabled/security.conf
+              sudo echo '   Deny from all' >> /etc/apache2/conf-enabled/security.conf
+              sudo echo '</Directory>' >> /etc/apache2/conf-enabled/security.conf
               sudo service  apache2 reload
-              sudo echo '127.0.0.1 www.ascii-art.de' >> /etc/hosts
-              sudo ip route add 208.86.224.90/32   dev eth0 src 10.0.1.51
               EOF 
 
   network_interface {
@@ -148,22 +148,22 @@ resource "aws_instance" "challenge_instance1" {
   }
 }
 
-# resource "aws_instance" "challenge_instance2" {
-#   ami = data.aws_ami.ubuntu.id
-#   instance_type = var.instance_type
-#   availability_zone = var.az
-#   key_name = var.key_name
+resource "aws_instance" "challenge_instance2" {
+  ami = data.aws_ami.ubuntu.id
+  instance_type = var.instance_type
+  availability_zone = var.az
+  key_name = var.key_name
 
 
-#   network_interface {
-#     device_index = 0 
-#     network_interface_id = aws_network_interface.challenge_network_interface2.id
-#   }
+  network_interface {
+    device_index = 0 
+    network_interface_id = aws_network_interface.challenge_network_interface2.id
+  }
 
-#   tags = {
-#     Name = "server2"
-#   }
-# }
+  tags = {
+    Name = "server2"
+  }
+}
 
 
 
