@@ -35,10 +35,10 @@ fi
 checkQuotes () {
 if [[ $2 == *'"'* ]]
     then
-        echo -e " variable "$1" {default = $2}" >> ~/techchallenge/demo/.tf/variables.tf
+        echo -e "variable "$1" {default = $2}" >> ~/techchallenge/demo/.tf/variables.tf
 else
         withQuotes=\"${2}\"
-        echo -e " variable "$1" {default = $withQuotes}" >> ~/techchallenge/demo/.tf/variables.tf
+        echo -e "variable "$1" {default = $withQuotes}" >> ~/techchallenge/demo/.tf/variables.tf
 fi
 }
 
