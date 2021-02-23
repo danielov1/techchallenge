@@ -18,7 +18,7 @@ createPubKey () {
 
 if [[ $publicKeyCheck == "$1.pub" ]]
     then
-        rm "$1" "$1.pub"
+        rm ~/techchallenge/demo/"$1" ~/techchallenge/demo/"$1.pub"
         echo "Public & Private keys removed, generating new keys..."
         cd ~/techchallenge/demo && ssh-keygen -f $1 -q -N ""
         publicKey=$(cat $1.pub)
