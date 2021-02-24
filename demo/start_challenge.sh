@@ -64,7 +64,8 @@ myPublicIP=$enterPublicIP/32
 }
 
 
-
+read -p "please enter your name: " myName
+prefixVar=$myName
 ## Execute functions in order
 publicIPfunc
 checkLinesRemove publicIPaddr
@@ -72,12 +73,14 @@ checkLinesRemove accessKey
 checkLinesRemove secretKey
 checkLinesRemove sessionToken
 checkLinesRemove publicKey
+checkLinesRemove prefix
 createPubKey chlng
 checkQuotes accessKey "$AWS_ACCESS_KEY_ID"
 checkQuotes secretKey "$AWS_SECRET_ACCESS_KEY"
 checkQuotes sessionToken "$AWS_SESSION_TOKEN"
 checkQuotes publicKey "$publicKey"
 checkQuotes publicIPaddr "$myPublicIP"
+checkQuotes prefix "$prefixVar"
 checkConfigured accessKey
 checkConfigured secretKey
 checkConfigured sessionToken
