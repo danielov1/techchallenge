@@ -53,7 +53,21 @@ else
 fi
 }
 
+## Configure your public IP in Security Group
+publicIPfunc () {
+read -p "please enter your public IP addess: " enterPublicIP
+while [[ ! $enterPublicIP =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]
+    do
+        read -p "please write a valid public IP : " enterPublicIP
+done
+myPublicIP=$enterPublicIP/32
+}
+
+
+
 ## Execute functions in order
+publicIPfunc
+checkLinesRemove publicIPaddr
 checkLinesRemove accessKey
 checkLinesRemove secretKey
 checkLinesRemove sessionToken
@@ -63,10 +77,12 @@ checkQuotes accessKey "$AWS_ACCESS_KEY_ID"
 checkQuotes secretKey "$AWS_SECRET_ACCESS_KEY"
 checkQuotes sessionToken "$AWS_SESSION_TOKEN"
 checkQuotes publicKey "$publicKey"
+checkQuotes publicIPaddr "$myPublicIP"
 checkConfigured accessKey
 checkConfigured secretKey
 checkConfigured sessionToken
 checkConfigured publicKey
+checkConfigured publicIPaddr
 
 ## Install Terraform and apply tf config
 brew install terraform
