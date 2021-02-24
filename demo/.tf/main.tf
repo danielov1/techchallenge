@@ -26,7 +26,7 @@ resource "aws_route_table" "challenge_route_table" {
   }
 
   tags = {
-    Name = "Prod"
+    Name = "Prod-${var.prefix}"
   }
 }
 
@@ -81,7 +81,7 @@ resource "aws_security_group" "challenge_sg_web_traffic" {
   }
 
   tags = {
-    Name = "allow_web_ssh"
+    Name = "allow_web_ssh-${var.prefix}"
   }
 }
 
@@ -111,7 +111,7 @@ resource "aws_eip" "challenge_eip2" {
 }
 
 resource "aws_key_pair" "deployer" {
-  key_name   = var.key_name
+  key_name   = "chlng-${var.prefix}"
   public_key = var.publicKey
 }
 
@@ -119,7 +119,7 @@ resource "aws_instance" "challenge_instance1" {
   ami = data.aws_ami.ubuntu.id
   instance_type = var.instance_type
   availability_zone = var.az
-  key_name = var.key_name
+  key_name = "chlng-${var.prefix}"
   user_data =  <<-EOF
               #!/bin/bash
               sudo -i
@@ -144,7 +144,7 @@ resource "aws_instance" "challenge_instance1" {
   }
 
   tags = {
-    Name = "server1"
+    Name = "server1-${var.prefix}"
   }
 }
 
@@ -152,7 +152,7 @@ resource "aws_instance" "challenge_instance2" {
   ami = data.aws_ami.ubuntu.id
   instance_type = var.instance_type
   availability_zone = var.az
-  key_name = var.key_name
+  key_name = "chlng-${var.prefix}"
 
 
   network_interface {
@@ -161,6 +161,6 @@ resource "aws_instance" "challenge_instance2" {
   }
 
   tags = {
-    Name = "server2"
+    Name = "server2-${var.prefix}"
   }
 }
