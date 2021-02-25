@@ -10,7 +10,7 @@ resource "aws_vpc" "prod" {
 
   tags = {
     Name = "Prod-${var.prefix}"
-    Owner = "${var.prefix}"
+    Owner = "-${var.prefix}"
   }
 }
 
@@ -28,7 +28,7 @@ resource "aws_route_table" "challenge_route_table" {
 
   tags = {
     Name = "Prod-${var.prefix}"
-    Owner = "${var.prefix}"
+    Owner = "-${var.prefix}"
   }
 }
 
@@ -39,7 +39,7 @@ resource "aws_subnet" "challenge_subnet" {
 
   tags = {
     Name = "Public-${var.prefix}"
-    Owner = "${var.prefix}"
+    Owner = "-${var.prefix}"
   }
 }
 
@@ -85,7 +85,7 @@ resource "aws_security_group" "challenge_sg_web_traffic" {
 
   tags = {
     Name = "allow_web_ssh-${var.prefix}"
-    Owner = "${var.prefix}"
+    Owner = "-${var.prefix}"
   }
 }
 
@@ -149,7 +149,7 @@ resource "aws_instance" "challenge_instance1" {
 
   tags = {
     Name = "server1-${var.prefix}"
-    Owner = "${var.prefix}"
+    Owner = "-${var.prefix}"
   }
 }
 
@@ -167,6 +167,6 @@ resource "aws_instance" "challenge_instance2" {
 
   tags = {
     Name = "server2-${var.prefix}"
-    Owner = "${var.prefix}"
+    Owner = "-${var.prefix}"
   }
 }
