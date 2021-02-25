@@ -1,6 +1,6 @@
 #!/bin/bash
 
-## Check if lines are exist and remove them
+## Check if lines exist and remove them
 checkLinesRemove () {
     checkLineRemove=$(grep -oh $1 ~/techchallenge/demo/.tf/variables.tf)
 if [[ $checkLineRemove == "$1" ]]
@@ -31,7 +31,7 @@ else
 fi
 }
 
-## Check if Quotes are exist, If not add Quotes
+## Check if Quotes are existed, If not add Quotes
 checkQuotes () {
 if [[ $2 == *'"'* ]]
     then
@@ -53,7 +53,7 @@ else
 fi
 }
 
-## Configure your public IP in Security Group
+## Configure your public IP in variable named myPublicIP
 publicIPfunc () {
 read -p "please enter your public IP addess: " enterPublicIP
 while [[ ! $enterPublicIP =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]
